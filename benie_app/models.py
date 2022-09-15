@@ -148,6 +148,8 @@ class MyUser(AbstractBaseUser,PermissionsMixin):
             "unique": _("A user with that username already exists."),
         }
     )
+    first_name = models.CharField(_("first name"), max_length=150)
+    last_name = models.CharField(_("last name"), max_length=150)
     email = models.EmailField(_("email address"))
     is_staff = models.BooleanField(
         _("staff status"),
@@ -194,9 +196,6 @@ class MyUser(AbstractBaseUser,PermissionsMixin):
 # created upon successful registration
 class Profile(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100, blank=True)
-    last_name = models.CharField(max_length=100, blank=True)
-    email = models.EmailField(max_length=150,blank=True)
     phone_number = models.PositiveIntegerField(null=True,blank=True)
     resume = models.FileField(null=True,blank=True)
     bio = models.CharField(max_length=500,null=True,blank=True)
