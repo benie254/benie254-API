@@ -1,4 +1,4 @@
-from django.urls import path,re_path,url 
+from django.urls import path,re_path as url 
 from benie_app import views 
 
 
