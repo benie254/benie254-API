@@ -196,7 +196,7 @@ class MyUser(AbstractBaseUser,PermissionsMixin):
 # created upon successful registration
 class Profile(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    phone_number = models.PositiveIntegerField(null=True,blank=True)
+    phone_number = models.PositiveBigIntegerField(null=True,blank=True)
     resume = models.FileField(null=True,blank=True)
     bio = models.CharField(max_length=500,null=True,blank=True)
     intro = models.TextField(max_length=1500,null=True,blank=True)
