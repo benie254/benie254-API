@@ -195,24 +195,15 @@ class MyUser(AbstractBaseUser,PermissionsMixin):
 
 # created upon successful registration
 class Profile(models.Model):
-    user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     username = models.CharField(max_length=100, blank=True)
     email = models.EmailField(max_length=150,blank=True)
     phone_number = models.PositiveIntegerField(null=True,blank=True)
+    resume = models.FileField(null=True,blank=True)
+    bio = models.CharField(max_length=500,null=True,blank=True)
+    intro = models.TextField(max_length=1500,null=True,blank=True)
+    about_me = models.TextField(max_length=5000,null=True,blank=True)
+    profile_photo = CloudinaryField('profile_photo',null=True,blank=True)
     signup_confirmation = models.BooleanField(default=False) 
-
-@receiver(post_save, sender=MyUser)
-def update_profile_signal(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-    instance.profile.save()
-
-class MyInfo(models.Model):
-    user = models.OneToOneField(MyUser, on_delete=models.CASCADE, null=True)
-    resume = models.FileField()
-    bio = models.CharField(max_length=500)
-    intro = models.TextField(max_length=1500)
-    about_me = models.TextField(max_length=5000)
-    profile_photo = CloudinaryField('profile_photo')
