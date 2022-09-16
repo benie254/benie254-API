@@ -18,10 +18,18 @@ from decouple import config,Csv
 from datetime import timedelta
 import cloudinary 
 
-CLOUDINARY_URL=config('CLOUDINARY_URL')
+
+cloudinary.config(
+    cloud_name=config('CLOUD_NAME'),
+    api_key=config('API_KEY'),
+    api_secret=config('API_SECRET'),
+    CLOUDINARY_URL=config('CLOUDINARY_URL')
+)
+
 
 import cloudinary.uploader 
 import cloudinary.api 
+
 
 
 MODE=config("MODE", default="dev")

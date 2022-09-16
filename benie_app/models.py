@@ -197,7 +197,7 @@ class MyUser(AbstractBaseUser,PermissionsMixin):
 class Profile(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     phone_number = models.PositiveBigIntegerField(null=True,blank=True)
-    resume = models.FileField(null=True,blank=True)
+    resume = CloudinaryField(null=True,blank=True,resource_type='raw')
     bio = models.CharField(max_length=500,null=True,blank=True)
     intro = models.TextField(max_length=1500,null=True,blank=True)
     about_me = models.TextField(max_length=5000,null=True,blank=True)
