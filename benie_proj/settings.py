@@ -17,15 +17,6 @@ import dj_database_url
 from decouple import config,Csv
 from datetime import timedelta
 import cloudinary 
-
-
-cloudinary.config(
-    cloud_name=config('CLOUD_NAME'),
-    api_key=config('API_KEY'),
-    api_secret=config('API_SECRET'),
-)
-
-
 import cloudinary.uploader 
 import cloudinary.api 
 
@@ -47,6 +38,11 @@ if config('MODE')=="dev":
        }
        
    }
+   cloudinary.config(
+        cloud_name=config('CLOUD_NAME'),
+        api_key=config('API_KEY'),
+        api_secret=config('API_SECRET'),
+    )
 # production
 else:
    DATABASES = {
@@ -54,6 +50,9 @@ else:
            default=config('DATABASE_URL')
        )
    }
+   cloudinary.config(
+        CLOUDINARY_URL=config('CLOUDINARY_URL')
+   )
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
