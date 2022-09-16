@@ -203,3 +203,38 @@ class Profile(models.Model):
     about_me = models.TextField(max_length=5000,null=True,blank=True)
     profile_photo = CloudinaryField('profile_photo',null=True,blank=True)
     signup_confirmation = models.BooleanField(default=False) 
+
+class Technology(models.Model):
+    name = models.CharField(max_length=120)
+    purpose = models.CharField(max_length=60)
+
+class Project(models.Model):
+    user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
+    title = models.CharField(max_length=80)
+    short_description = models.CharField(max_length=150)
+    summary = models.TextField(max_length=1000)
+    long_description = models.TextField(max_length=5000)
+    featured_img = CloudinaryField('Featured image')
+    screenshot = CloudinaryField('Screenshot')
+    screenshot2 = CloudinaryField('Screenshot2')
+    screenshot3 = CloudinaryField('Screenshot3')
+    live_link = models.URLField(max_length=300)
+    rated = models.PositiveIntegerField()
+    technologies = models.ManyToManyField(Technology)
+
+    class Meta:
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
+
+class Rating(models.Model):
+    user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE,null=True)
+    rating = models.PositiveIntegerField()
+
+class Feedback(models.Model):
+    user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE)
+    feedback = models.TextField(max_length=1500)
+
