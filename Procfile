@@ -1,0 +1,1 @@
+web: gunicorn benie_proj.wsgi
