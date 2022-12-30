@@ -205,36 +205,39 @@ class Profile(models.Model):
     signup_confirmation = models.BooleanField(default=False) 
 
 class Technology(models.Model):
-    name = models.CharField(max_length=120)
-    purpose = models.CharField(max_length=60)
+    name = models.CharField(max_length=120,default='')
 
 class Project(models.Model):
-    user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
-    title = models.CharField(max_length=80)
-    short_description = models.CharField(max_length=150)
-    summary = models.TextField(max_length=1000)
-    long_description = models.TextField(max_length=5000)
-    featured_img = CloudinaryField('Featured image')
-    screenshot = CloudinaryField('Screenshot')
-    screenshot2 = CloudinaryField('Screenshot2')
-    screenshot3 = CloudinaryField('Screenshot3')
-    live_link = models.URLField(max_length=300)
-    rated = models.PositiveIntegerField()
+    user = models.ForeignKey(MyUser,on_delete=models.CASCADE,null=True,blank=True)
+    name = models.CharField(max_length=80,default='')
+    short_description = models.CharField(max_length=150,default='')
+    summary = models.TextField(max_length=1000,default='')
+    long_description = models.TextField(max_length=5000,default='')
+    featured_img = models.URLField(max_length=1000,default='')
+    screenshot = models.URLField(max_length=1000,default='')
+    live_link = models.URLField(max_length=1000,default='')
     technologies = models.ManyToManyField(Technology)
 
     class Meta:
-        ordering = ['title']
+        ordering = ['name']
 
     def __str__(self):
-        return self.title
+        return self.name
 
-class Rating(models.Model):
-    user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
-    project = models.ForeignKey(Project,on_delete=models.CASCADE,null=True)
-    rating = models.PositiveIntegerField()
+class Reaction(models.Model):
+    REACTIONS = (('like','like'),('dislike','dislike'))
+    like = models.CharField(choices=REACTIONS,max_length=60,default='',null=True,blank=True)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE,default='',null=True,blank=True)
+    date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.like
 
 class Feedback(models.Model):
-    user = models.ForeignKey(MyUser,on_delete=models.CASCADE)
-    project = models.ForeignKey(Project,on_delete=models.CASCADE)
-    feedback = models.TextField(max_length=1500)
+    comment = models.TextField(max_length=2500,null=True,blank=True)
+    commented_by = models.CharField(max_length=120,null=True,blank=True)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE,default='',null=True,blank=True)
+    date = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return self.comment
