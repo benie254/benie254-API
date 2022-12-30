@@ -1,5 +1,5 @@
 from django.contrib import admin
-from benie_app.models import Profile, MyUser, Feedback, Reaction, Project, Technology
+from benie_app.models import Profile, MyUser, Feedback, Reaction, Project, Technology, Contact
 
 from django.contrib import admin
 
@@ -226,3 +226,4 @@ admin.site.register(Project)
 admin.site.register(Technology)
 admin.site.register(Reaction)
 admin.site.register(Feedback)
+admin.site.register(Contact)
