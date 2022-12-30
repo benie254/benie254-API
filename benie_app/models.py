@@ -241,3 +241,12 @@ class Feedback(models.Model):
 
     def __str__(self):
         return self.comment
+
+class Contact(models.Model):
+    name = models.CharField(max_length=220,default='',null=True,blank=True)
+    email = models.EmailField(max_length=220,default='',null=True,blank=True)
+    message = models.TextField(max_length=9000,null=True,blank=True)
+    date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.name
