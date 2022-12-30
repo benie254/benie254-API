@@ -6,6 +6,9 @@ from rest_framework.response import Response
 from benie_app.models import MyUser, Profile
 from benie_app.serializer import ProfileSerializer
 
+from django.shortcuts import render
+
+
 
 # Create your views here.
 class UserProfiles(APIView):
