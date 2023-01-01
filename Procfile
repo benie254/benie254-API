@@ -1,1 +1,1 @@
-web: gunicorn benie_proj.wsgi
+web: python manage.py migrate && gunicorn benie_proj.wsgi
