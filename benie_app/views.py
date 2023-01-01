@@ -18,6 +18,9 @@ from decouple import config
 
 
 # Create your views here.
+def landing(request):
+    return render(request,'landing.html',{})
+  
 class UserProfiles(APIView):
     def get_user_profiles(self):
         try:

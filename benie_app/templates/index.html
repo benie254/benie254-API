@@ -7,24 +7,28 @@
     <br>
     <ol class="bg-light w-50">
         <li><a href="{% url 'all-projects' %}">All Projects</a></li>
+        <li><a href="{% url 'add-project' %}">Add Project</a></li>
         <span>
             <ul>
                 {% for p in projects %}<li><a href="{% url 'project-details' p.id %}">Project: <span><strong>{{p.name}}</strong></span> details</a></li>{% endfor %}
             </ul>
         </span>
         <li><a href="{% url 'all-technologies' %}">All Technologies</a></li>
+        <li><a href="{% url 'add-technology' %}">Add Technology</a></li>
         <span>
             <ul>
                 {% for t in technologies %}<li><a href="{% url 'technology-details' t.id %}">Technology: {{t.id}}. <span><strong>{{t.name}}</strong> </span> details</a></li>{% endfor %}
             </ul>
         </span>
         <li><a href="{% url 'all-feedbacks' %}">All Feedbacks</a></li>
+        <li><a href="{% url 'add-feedback' %}">Add Feedback</a></li>
         <span>
             <ul>
                 {% for f in feedbacks %}<li><a href="{% url 'feedback-details' f.id %}">Feedback #{{f.id}} details</a></li>{% endfor %}
             </ul>
         </span>
         <li><a href="{% url 'all-reactions' %}">All Reactions</a></li>
+        <li><a href="{% url 'add-reaction' %}">Add Reaction</a></li>
         <span>
             <ul>
                 {% for r in reactions %}<li><a href="{% url 'reaction-details' f.id %}">Reaction #{{r.id}} details</a></li>{% endfor %}
