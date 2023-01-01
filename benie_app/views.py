@@ -20,6 +20,9 @@ from decouple import config
 # Create your views here.
 def landing(request):
     return render(request,'landing.html',{})
+
+def home(request):
+    return render(request,'index.html',{})
   
 class UserProfiles(APIView):
     def get_user_profiles(self):
