@@ -21,7 +21,6 @@ import cloudinary.uploader
 import cloudinary.api 
 
 
-
 MODE=config("MODE", default="dev")
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -38,11 +37,6 @@ if config('MODE')=="dev":
        }
        
    }
-   cloudinary.config(
-        cloud_name=config('CLOUD_NAME'),
-        api_key=config('API_KEY'),
-        api_secret=config('API_SECRET'),
-    )
 # production
 else:
    DATABASES = {
@@ -50,9 +44,6 @@ else:
            default=config('DATABASE_URL')
        )
    }
-   cloudinary.config(
-        CLOUDINARY_URL=config('CLOUDINARY_URL')
-   )
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
@@ -89,15 +80,32 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'cloudinary',
+    'knox',
 ]
 
 AUTH_USER_MODEL = 'benie_app.MyUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'knox.auth.TokenAuthentication',
+    ),
+}
+
+REST_KNOX = {
+  'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
+  'AUTH_TOKEN_CHARACTER_LENGTH': 64,
+  'TOKEN_TTL': timedelta(hours=10),
+  'USER_SERIALIZER': 'knox.serializers.UserSerializer',
+  'TOKEN_LIMIT_PER_USER': None,
+  'AUTO_REFRESH': False,
+}
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:4200',
     'http://127.0.0.1:8000',
-    'https://benie254.herokuapp.com',
+    'https://beniewrites-api-production.up.railway.app',
+    'https://benie254.web.app',
 )
 
 MIDDLEWARE = [
@@ -203,5 +211,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# conf app for heroku 
-django_heroku.settings(locals(),staticfiles=False)
+CLOUDINARY_URL = os.getenv('CLOUDINARY_URL')
