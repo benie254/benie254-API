@@ -61,6 +61,27 @@ class ProjectDetails(APIView):
         return Response(serializers.data)
 
 @permission_classes([AllowAny,])
+class ProjectReactions(APIView):    
+    def get(self, request, id, format=None):
+        reactions = Reaction.objects.all().filter(project=id)
+        serializers = ReactionSerializer(reactions,many=True)
+        return Response(serializers.data)
+
+@permission_classes([AllowAny,])
+class ProjectFeedbacks(APIView):    
+    def get(self, request, id, format=None):
+        feedbacks = Feedback.objects.all().filter(project=id)
+        serializers = FeedbackSerializer(feedbacks,many=True)
+        return Response(serializers.data)
+
+@permission_classes([AllowAny,])
+class ProjectTechnologies(APIView):    
+    def get(self, request, id, format=None):
+        technologies = Technology.objects.all().filter(project=id)
+        serializers = TechnologySerializer(technologies,many=True)
+        return Response(serializers.data)
+
+@permission_classes([AllowAny,])
 # @permission_classes([IsAdminUser,])
 class UpdateProject(APIView):
     def put(self, request, id, format=None):
