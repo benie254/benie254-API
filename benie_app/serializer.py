@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from benie_app.models import Profile, Project, Technology, Reaction, Feedback, Contact
+from benie_app.models import Profile, Project, Technology, Reaction, Feedback, Contact, Feature 
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,6 +14,11 @@ class ProjectSerializer(serializers.ModelSerializer):
 class TechnologySerializer(serializers.ModelSerializer):
     class Meta:
         model = Technology
+        fields = ('__all__')
+
+class FeatureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Feature
         fields = ('__all__')
 
 class ReactionSerializer(serializers.ModelSerializer):

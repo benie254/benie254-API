@@ -20,6 +20,6 @@ from benie_app import views
 urlpatterns = [
     path('',views.landing),
     path('admin/', admin.site.urls),
-    path('adm',include('benie_app.admin.urls')),
+    path('api/admin/',include('benie_app.urls_admin')),
     path('api/',include('benie_app.urls')),
 ]

@@ -6,8 +6,8 @@ from rest_framework import status
 from rest_framework.decorators import permission_classes 
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 
-from benie_app.models import MyUser, Profile, Project, Technology, Feedback, Reaction, Contact
-from benie_app.serializer import ProfileSerializer, ProjectSerializer, TechnologySerializer, FeedbackSerializer, ReactionSerializer, ContactSerializer
+from benie_app.models import MyUser, Profile, Project, Technology, Feedback, Reaction, Contact, Feature
+from benie_app.serializer import ProfileSerializer, ProjectSerializer, TechnologySerializer, FeatureSerializer, FeedbackSerializer, ReactionSerializer, ContactSerializer
 
 from django.shortcuts import render
 from django.template.loader import render_to_string
@@ -98,15 +98,13 @@ class UpdateProject(APIView):
         return Response(status=status.HTTP_200_OK) 
 
 @permission_classes([AllowAny,])
+# @permission_classes([IsAdminUser,])
 class AllTechnologies(APIView):
     def get(self, request, format=None):
         technologies = Technology.objects.all()
         serializers = TechnologySerializer(technologies,many=True)
         return Response(serializers.data)
 
-@permission_classes([AllowAny,])
-# @permission_classes([IsAdminUser,])
-class AddTechnology(APIView):
     def post(self, request, format=None):
         serializers = TechnologySerializer(data=request.data)
         if serializers.is_valid():
@@ -115,15 +113,28 @@ class AddTechnology(APIView):
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST) 
 
 @permission_classes([AllowAny,])
+# @permission_classes([IsAdminUser,])
+class AllFeatures(APIView):
+    def get(self, request, format=None):
+        features = Feature.objects.all()
+        serializers = FeatureSerializer(features,many=True)
+        return Response(serializers.data)
+
+    def post(self, request, format=None):
+        serializers = FeatureSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+
+@permission_classes([AllowAny,])
 class TechnologyDetails(APIView):    
     def get(self, request, id, format=None):
         technology = Technology.objects.all().filter(pk=id).last()
         serializers = TechnologySerializer(technology,many=False)
         return Response(serializers.data)
 
-@permission_classes([AllowAny,])
-# @permission_classes([IsAdminUser,])
-class UpdateTechnology(APIView):
     def put(self, request, id, format=None):
         technology = Technology.objects.all().filter(pk=id).last()
         serializers = TechnologySerializer(technology,request.data)
@@ -138,21 +149,40 @@ class UpdateTechnology(APIView):
         return Response(status=status.HTTP_200_OK) 
 
 @permission_classes([AllowAny,])
+class FeatureDetails(APIView):    
+    def get(self, request, id, format=None):
+        feature = Feature.objects.all().filter(pk=id).last()
+        serializers = FeatureSerializer(feature,many=False)
+        return Response(serializers.data)
+
+    def put(self, request, id, format=None):
+        feature = Feature.objects.all().filter(pk=id).last()
+        serializers = FeatureSerializer(feature,request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+    def delete(self, request, id, format=None):
+        feature = Feature.objects.all().filter(pk=id).last()
+        feature.delete()
+        return Response(status=status.HTTP_200_OK) 
+
+@permission_classes([AllowAny,])
+# @permission_classes([IsAdminUser,])
 class AllFeedbacks(APIView):
     def get(self, request, format=None):
         feedbacks = Feedback.objects.all()
         serializers = FeedbackSerializer(feedbacks,many=True)
         return Response(serializers.data)
 
-@permission_classes([AllowAny,])
-# @permission_classes([IsAdminUser,])
-class AddFeedback(APIView):
     def post(self, request, format=None):
         serializers = FeedbackSerializer(data=request.data)
         if serializers.is_valid():
             serializers.save()
             return Response(serializers.data)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST) 
+
 
 @permission_classes([AllowAny,])
 class FeedbackDetails(APIView):    
@@ -178,15 +208,13 @@ class UpdateFeedback(APIView):
         return Response(status=status.HTTP_200_OK) 
 
 @permission_classes([AllowAny,])
+# @permission_classes([IsAdminUser,])
 class AllReactions(APIView):
     def get(self, request, format=None):
         reactions = Reaction.objects.all()
         serializers = ReactionSerializer(reactions,many=True)
         return Response(serializers.data)
 
-@permission_classes([AllowAny,])
-# @permission_classes([IsAdminUser,])
-class AddReaction(APIView):
     def post(self, request, format=None):
         serializers = ReactionSerializer(data=request.data)
         if serializers.is_valid():
@@ -218,6 +246,7 @@ class UpdateReaction(APIView):
         return Response(status=status.HTTP_200_OK) 
 
 @permission_classes([AllowAny,])
+# @permission_classes([IsAdminUser,])
 class AllContacts(APIView):
     def get(self, request, format=None):
         contacts = Contact.objects.all()

@@ -207,16 +207,21 @@ class Profile(models.Model):
 class Technology(models.Model):
     name = models.CharField(max_length=120,default='')
 
+class Feature(models.Model):
+    name = models.CharField(max_length=120,default='')
+
 class Project(models.Model):
     user = models.ForeignKey(MyUser,on_delete=models.CASCADE,null=True,blank=True)
     name = models.CharField(max_length=80,default='')
-    short_description = models.CharField(max_length=150,default='')
-    summary = models.TextField(max_length=1000,default='')
+    short_description = models.CharField(max_length=300,default='')
+    summary = models.TextField(max_length=150,default='')
     long_description = models.TextField(max_length=5000,default='')
     featured_img = models.URLField(max_length=1000,default='')
     screenshot = models.URLField(max_length=1000,default='')
     live_link = models.URLField(max_length=1000,default='')
     technologies = models.ManyToManyField(Technology)
+    features = models.ManyToManyField(Feature)
+    
 
     class Meta:
         ordering = ['name']
